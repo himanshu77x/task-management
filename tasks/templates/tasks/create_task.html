@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+        }
+        h2 {
+            text-align: left;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        input[type="text"],
+        textarea,
+        select,
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        select:invalid {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Creation</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Task Title:</label>
+        <input type="text" name="title" placeholder="Enter Task Title" required>
+
+        <label>Enter Task Description:</label>
+        <textarea name="description" rows="4" placeholder="Enter Task Description" required></textarea>
+
+        <select name="priority" required>
+            <option value="" disabled selected>Select Task priority</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+
+        <select name="assigned_to" required>
+            <option value="" disabled selected>Assigned To:</option>
+            {% for employee in employees %}
+                <option value="{{ employee.id }}">{{ employee.username }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Start date:</label>
+        <input type="date" name="start_date" required>
+
+        <label>End date:</label>
+        <input type="date" name="end_date" required>
+
+        <select name="task_type" required>
+            <option value="" disabled selected>Select Task Type</option>
+            <option value="Individual">Individual</option>
+            <option value="Team">Team</option>
+        </select>
+
+        <select name="status" required>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <button type="submit">Create Task</button>
+    </form>
+</div>
+
+</body>
+</html>
